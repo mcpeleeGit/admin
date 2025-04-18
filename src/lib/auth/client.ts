@@ -55,16 +55,24 @@ class AuthClient {
     const { email, password } = params;
 
     // Make API request
+    const response = await fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'sofia@devias.io' || password !== 'Secret1') {
-      return { error: 'Invalid credentials' };
+    const data = await response.json();
+
+    if (data.success) {
+      const token = data.token;
+      localStorage.setItem('custom-auth-token', token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return {};
     }
 
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
-    return {};
+    return { error: 'Invalid credentials' };
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {

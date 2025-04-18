@@ -3,9 +3,9 @@ import RouterLink from 'next/link';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
 
 import { paths } from '@/paths';
-import { DynamicLogo } from '@/components/core/logo';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -23,8 +23,31 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
     >
       <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
         <Box sx={{ p: 3 }}>
-          <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-block', fontSize: 0 }}>
-            <DynamicLogo colorDark="light" colorLight="dark" height={32} width={122} />
+          <Box component={RouterLink} href={paths.home} sx={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            textDecoration: 'none'
+          }}>
+            <Box
+              component="img"
+              src="/assets/googsu.png"
+              alt="Googsu"
+              sx={{
+                height: 40,
+                width: 'auto',
+                display: 'block',
+                marginRight: 1
+              }}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                color: 'text.primary'
+              }}
+            >
+              Admin
+            </Typography>
           </Box>
         </Box>
         <Box sx={{ alignItems: 'center', display: 'flex', flex: '1 1 auto', justifyContent: 'center', p: 3 }}>
@@ -46,18 +69,18 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
             <Typography color="inherit" sx={{ fontSize: '24px', lineHeight: '32px', textAlign: 'center' }} variant="h1">
               Welcome to{' '}
               <Box component="span" sx={{ color: '#15b79e' }}>
-                Devias Kit
+                Admin
               </Box>
             </Typography>
             <Typography align="center" variant="subtitle1">
-              A professional template that comes with ready-to-use MUI components.
+              googsu.com
             </Typography>
           </Stack>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box
               component="img"
               alt="Widgets"
-              src="/assets/auth-widgets.png"
+              src="/assets/auth-widgets.jpg"
               sx={{ height: 'auto', width: '100%', maxWidth: '600px' }}
             />
           </Box>
