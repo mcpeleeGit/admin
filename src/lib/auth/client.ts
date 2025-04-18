@@ -27,6 +27,13 @@ export interface SignInWithOAuthParams {
   provider: 'google' | 'discord';
 }
 
+interface SignInResponse {
+  success: boolean;
+  token?: string;
+  user?: User;
+  message?: string;
+}
+
 export interface SignInWithPasswordParams {
   email: string;
   password: string;
@@ -63,16 +70,15 @@ class AuthClient {
       body: JSON.stringify({ email, password }),
     });
 
-    const data = await response.json();
+    const data = await response.json() as SignInResponse;
 
-    if (data.success) {
-      const token = data.token;
-      localStorage.setItem('custom-auth-token', token);
+    if (data.success && data.token && data.user) {
+      localStorage.setItem('custom-auth-token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       return {};
     }
 
-    return { error: 'Invalid credentials' };
+    return { error: data.message || 'Invalid credentials' };
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {

@@ -1,9 +1,26 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export async function POST(request: NextRequest) {
+interface SignInRequestBody {
+  email: string;
+  password: string;
+}
+
+interface SignInResponse {
+  success: boolean;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+    avatar: string;
+  };
+  token?: string;
+  message?: string;
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse<SignInResponse>> {
   try {
-    const body = await request.json();
+    const body = await request.json() as SignInRequestBody;
     const { email, password } = body;
 
     // TODO: 실제 인증 로직 구현
@@ -13,7 +30,7 @@ export async function POST(request: NextRequest) {
         success: true,
         user: {
           id: '1',
-          email: email,
+          email,
           name: 'Admin User',
           avatar: '/assets/avatar.png'
         },
